@@ -5,16 +5,16 @@ function hi() {
 }
 
 if (cluster.isMaster) {
-	  let i = 0;
+	let i = 5;
+	while (i--) {
 		cluster.fork().send({
-			"somemsg": "Hello World"
+			"somemsg": "Hello World" // only string and integer
 		});
-		i++;
-		console.log(`start thread : ${i}`);
-    hi();
+	}
+	hi();
 } else {
-    process.on('message', function(message) {
-      console.log(message.somemsg);
-      hi();
-    });
+	process.on('message', function(message) {
+		console.log(message.somemsg);
+		hi();
+	});
 }
